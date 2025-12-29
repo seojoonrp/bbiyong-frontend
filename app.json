@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "bbiyong-frontend",
-    "slug": "bbiyong-frontend",
+    "name": "삐용",
+    "slug": "bbiyong",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
