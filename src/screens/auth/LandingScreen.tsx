@@ -2,7 +2,7 @@ import client from "@/src/api/client";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export default function HomeScreen() {
+export default function LandingScreen() {
   const [isOnline, setIsOnline] = useState<boolean>(false);
 
   const checkPing = async () => {
