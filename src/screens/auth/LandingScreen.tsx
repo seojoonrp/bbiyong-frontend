@@ -14,8 +14,10 @@ export default function LandingScreen() {
   const checkPing = async () => {
     try {
       const response = await client.get("/ping");
+      console.log("Ping response:", response.data);
       setIsOnline(true);
     } catch (error) {
+      console.error("Ping error:", error);
       setIsOnline(false);
     }
   };
@@ -24,18 +26,19 @@ export default function LandingScreen() {
     <SafeAreaView style={styles.container}>
       <Text>LandingScreen</Text>
 
+      <DebugButton index={0} label="Check Ping" onPress={checkPing} />
       <DebugButton
-        index={0}
+        index={1}
         label="Go to Register"
         onPress={() => router.push("/register")}
       />
       <DebugButton
-        index={1}
+        index={2}
         label="Go to Main"
         onPress={() => router.push("/(main)/search-meetings")}
       />
       <DebugButton
-        index={2}
+        index={3}
         label="Go to Profile Setup"
         onPress={() => router.push("/(auth)/profile/basic")}
       />

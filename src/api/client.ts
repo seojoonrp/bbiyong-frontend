@@ -1,13 +1,14 @@
 import axios from "axios";
 
-const NGROK_ID = "some-id";
-const BASE_URL = `https://${NGROK_ID}.ngrok-free.app/api/v1`;
+const BASE_URL =
+  "https://nontheological-unpostered-addyson.ngrok-free.dev/api/v1";
 
 const client = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
+    "ngrok-skip-browser-warning": "69420",
   },
 });
 
