@@ -13,7 +13,7 @@ export default function DebugButton({
   onPress,
   index = 0,
 }: DebugButtonProps) {
-  const topPosition = 60 + index * 50;
+  const topPosition = 80 + index * 50;
 
   return (
     <TouchableOpacity

@@ -1,8 +1,11 @@
+// src/screens/auth/LandingScreen.tsx
+
 import client from "@/src/api/client";
 import DebugButton from "@/src/components/DebugButton";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function LandingScreen() {
   const router = useRouter();
@@ -18,7 +21,7 @@ export default function LandingScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text>LandingScreen</Text>
 
       <DebugButton
@@ -29,9 +32,14 @@ export default function LandingScreen() {
       <DebugButton
         index={1}
         label="Go to Main"
-        onPress={() => router.push("/(tabs)/search-meetings")}
+        onPress={() => router.push("/(main)/search-meetings")}
       />
-    </View>
+      <DebugButton
+        index={2}
+        label="Go to Profile Setup"
+        onPress={() => router.push("/(auth)/profile/basic")}
+      />
+    </SafeAreaView>
   );
 }
 

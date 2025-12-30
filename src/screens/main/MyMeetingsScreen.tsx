@@ -1,21 +1,21 @@
-// src/screens/auth/profile/BasicInfoScreen.tsx
+// src/screens/main/MyMeetingsScreen.tsx
 
 import DebugButton from "@/src/components/DebugButton";
 import { useRouter } from "expo-router";
 import { StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function BasicInfoScreen() {
+export default function MyMeetingsScreen() {
   const router = useRouter();
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>BasicInfoScreen</Text>
+      <Text>MyMeetingsScreen</Text>
 
       <DebugButton
         index={0}
-        label="Go to Location Info"
-        onPress={() => router.replace("/(auth)/profile/location")}
+        label="Go to Landing"
+        onPress={() => router.replace("/")}
       />
     </SafeAreaView>
   );
