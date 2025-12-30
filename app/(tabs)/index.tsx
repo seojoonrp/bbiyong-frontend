@@ -1,6 +1,19 @@
+import client from "@/src/api/client";
+import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
+  const [isOnline, setIsOnline] = useState<boolean>(false);
+
+  const checkPing = async () => {
+    try {
+      const response = await client.get("/ping");
+      setIsOnline(true);
+    } catch (error) {
+      setIsOnline(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>삐용</Text>
