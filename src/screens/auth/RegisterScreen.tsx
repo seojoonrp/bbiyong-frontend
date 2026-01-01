@@ -1,11 +1,13 @@
 // src/screens/auth/RegisterScreen.tsx
 
+import { authApi } from "@/src/api/auth";
 import AuthStatusMessage from "@/src/components/auth/AuthStatusMessage";
 import AuthTextInput from "@/src/components/auth/AuthTextInput";
 import ConsentModal from "@/src/components/auth/ConsentModal";
 import RedButton from "@/src/components/common/RedButton";
 import DebugButton from "@/src/components/DebugButton";
 import colors from "@/src/constants/colors";
+import { useAuthStore } from "@/src/stores/authStore";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -25,6 +27,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function RegisterScreen() {
   const router = useRouter();
+  const login = useAuthStore((state) => state.login);
 
   // 아이디/비번 입력 관련 설정
   const [username, setUsername] = useState<string>("");
@@ -38,22 +41,45 @@ export default function RegisterScreen() {
   const [confirmPasswordCondition, setConfirmPasswordCondition] =
     useState<boolean>(false);
 
-  const [usernameChecked, setUsernameChecked] = useState<boolean>(false);
+  const handleCheckUsername = async () => {
+    if (!usernameCondition) return;
 
-  const [isComplete, setIsComplete] = useState<boolean>(false);
-  useEffect(() => {
-    setIsComplete(
+    try {
+      const { exists } = await authApi.checkUsername(username);
+      setUsernameAvailability(!exists);
+    } catch (error) {
+      console.error("Username check error:", error);
+    }
+  };
+
+  const handleRegister = async () => {
+    if (!isComplete) return;
+
+    try {
+      bottomSheetModalRef.current?.dismiss();
+
+      await authApi.register({ username, password });
+
+      console.log("Registration successful");
+      router.replace("/");
+    } catch (error) {
+      console.error("Registration error:", error);
+    }
+  };
+
+  const isComplete = useMemo(
+    () =>
       usernameCondition &&
-        usernameAvailability &&
-        passwordCondition &&
-        confirmPasswordCondition
-    );
-  }, [
-    usernameCondition,
-    usernameAvailability,
-    passwordCondition,
-    confirmPasswordCondition,
-  ]);
+      usernameAvailability &&
+      passwordCondition &&
+      confirmPasswordCondition,
+    [
+      usernameCondition,
+      usernameAvailability,
+      passwordCondition,
+      confirmPasswordCondition,
+    ]
+  );
 
   useEffect(() => {
     const usernameRegex = /^[a-zA-Z0-9]{3,15}$/;
@@ -99,7 +125,11 @@ export default function RegisterScreen() {
           <AuthTextInput
             placeholder="아이디를 입력해주세요"
             value={username}
-            onChangeText={setUsername}
+            onChangeText={(text) => {
+              setUsername(text);
+              setUsernameAvailability(false);
+            }}
+            onBlur={handleCheckUsername}
           />
           <AuthStatusMessage
             okMessage="3자 이상 15자 이하 (영문, 숫자만 가능)"
@@ -168,11 +198,7 @@ export default function RegisterScreen() {
           }}
         >
           <BottomSheetView style={styles.contentContainer}>
-            <ConsentModal
-              onAgree={() => {
-                console.log("Agreed to terms");
-              }}
-            />
+            <ConsentModal onAgree={handleRegister} />
           </BottomSheetView>
         </BottomSheetModal>
 

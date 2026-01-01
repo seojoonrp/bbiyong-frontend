@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   button: {
     position: "absolute",
     left: 20,
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 8,

@@ -1,11 +1,11 @@
 // src/types/auth.ts
 
-enum Gender {
+export enum Gender {
   Male = "MALE",
   Female = "FEMALE",
 }
 
-enum Provider {
+export enum Provider {
   Local = "LOCAL",
   Google = "GOOGLE",
   Kakao = "KAKAO",

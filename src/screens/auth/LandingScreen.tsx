@@ -9,6 +9,11 @@ import AuthTextInput from "@/src/components/auth/AuthTextInput";
 import RedButton from "@/src/components/common/RedButton";
 import DebugButton from "@/src/components/DebugButton";
 import colors from "@/src/constants/colors";
+import { useAuthStore } from "@/src/stores/authStore";
+import { Provider } from "@/src/types/auth";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { login as kakaoLogin } from "@react-native-seoul/kakao-login";
+import * as AppleAuthentication from "expo-apple-authentication";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
@@ -23,6 +28,73 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function LandingScreen() {
   const router = useRouter();
+  const login = useAuthStore((state) => state.login);
+  const socialLogin = useAuthStore((state) => state.socialLogin);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleGoogleLogin = async () => {
+    try {
+      setLoading(true);
+      await GoogleSignin.hasPlayServices();
+      const { data } = await GoogleSignin.signIn();
+      if (data?.idToken) {
+        await handleSocialLoginResponse(Provider.Google, data.idToken);
+      }
+    } catch (error) {
+      console.error("Google Login Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleKakaoLogin = async () => {
+    try {
+      setLoading(true);
+      const token = await kakaoLogin();
+      if (token?.accessToken) {
+        await handleSocialLoginResponse(Provider.Kakao, token.accessToken);
+      }
+    } catch (error) {
+      console.error("Kakao Login Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAppleLogin = async () => {
+    try {
+      setLoading(true);
+      const credential = await AppleAuthentication.signInAsync({
+        requestedScopes: [
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        ],
+      });
+      if (credential.identityToken) {
+        await handleSocialLoginResponse(
+          Provider.Apple,
+          credential.identityToken
+        );
+      }
+    } catch (error) {
+      console.error("Apple Login Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSocialLoginResponse = async (
+    provider: Provider,
+    token: string
+  ) => {
+    const response = await socialLogin(provider, token);
+
+    if (response?.isNewUser) {
+      router.replace("/(auth)/profile/basic");
+    } else {
+      router.replace("/(main)/search-meetings");
+    }
+  };
 
   const [isOnline, setIsOnline] = useState<boolean>(false);
   const checkPing = async () => {
@@ -39,8 +111,23 @@ export default function LandingScreen() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const onLoginPress = () => {
+  // TODO : Check login session
+
+  const onLoginPress = async () => {
     if (username == "" || password == "") return;
+
+    try {
+      setLoading(true);
+
+      await login({ username, password });
+
+      console.log("Login successful");
+      router.push("/(main)/search-meetings");
+    } catch (error) {
+      console.error("Login error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -96,6 +183,7 @@ export default function LandingScreen() {
               styles.socialButton,
               { backgroundColor: colors.social.google },
             ]}
+            onPress={handleGoogleLogin}
           >
             <GoogleIcon width={22} height={22} />
           </TouchableOpacity>
@@ -104,6 +192,7 @@ export default function LandingScreen() {
               styles.socialButton,
               { backgroundColor: colors.social.kakao },
             ]}
+            onPress={handleKakaoLogin}
           >
             <KakaoIcon width={24} height={24} />
           </TouchableOpacity>
@@ -112,6 +201,7 @@ export default function LandingScreen() {
               styles.socialButton,
               { backgroundColor: colors.social.apple },
             ]}
+            onPress={handleAppleLogin}
           >
             <AppleIcon width={24} height={24} />
           </TouchableOpacity>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useAuthStore } from "../stores/authStore";
 
 const BASE_URL =
   "https://nontheological-unpostered-addyson.ngrok-free.dev/api/v1";
@@ -14,6 +15,11 @@ const client = axios.create({
 
 client.interceptors.request.use(
   (config) => {
+    const token = useAuthStore.getState().token;
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     return config;
   },
   (error) => Promise.reject(error)

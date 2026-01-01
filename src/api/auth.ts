@@ -10,6 +10,13 @@ import {
 import client from "./client";
 
 export const authApi = {
+  checkUsername: async (username: string): Promise<{ exists: boolean }> => {
+    const response = await client.get<{ exists: boolean }>(
+      `/auth/check-username?username=${username}`
+    );
+    return response.data;
+  },
+
   register: async (data: RegisterRequest) => {
     const response = await client.post<{ message: string }>(
       "/auth/register",
@@ -23,10 +30,24 @@ export const authApi = {
     return response.data;
   },
 
-  checkUsername: async (username: string): Promise<{ exists: boolean }> => {
-    const response = await client.get<{ exists: boolean }>(
-      `/auth/check-username?username=${username}`
-    );
+  googleLogin: async (idToken: string) => {
+    const response = await client.post<LoginResponse>("/auth/google", {
+      idToken,
+    });
+    return response.data;
+  },
+
+  kakaoLogin: async (accessToken: string) => {
+    const response = await client.post<LoginResponse>("/auth/kakao", {
+      accessToken,
+    });
+    return response.data;
+  },
+
+  appleLogin: async (identityToken: string) => {
+    const response = await client.post<LoginResponse>("/auth/apple", {
+      identityToken,
+    });
     return response.data;
   },
 };
