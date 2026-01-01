@@ -9,6 +9,7 @@ export default function AuthLayout() {
       <Stack.Screen name="register" />
       <Stack.Screen name="profile/basic" />
       <Stack.Screen name="profile/location" />
+      <Stack.Screen name="profile/image" />
       <Stack.Screen name="profile/ready" />
     </Stack>
   );

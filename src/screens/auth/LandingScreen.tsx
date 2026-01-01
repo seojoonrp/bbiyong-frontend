@@ -36,9 +36,13 @@ export default function LandingScreen() {
     try {
       setLoading(true);
 
-      await authService.login({ username, password });
+      const response = await authService.login({ username, password });
 
-      router.push("/(main)/search-meetings");
+      if (!response?.user.isProfileSet) {
+        router.replace("/(auth)/profile/basic");
+      } else {
+        router.replace("/(main)/search-meetings");
+      }
     } catch (error) {
       console.log("Login error:", error);
     } finally {
@@ -103,7 +107,7 @@ export default function LandingScreen() {
   ) => {
     const response = await authService.socialLogin(provider, token);
 
-    if (response?.isNewUser) {
+    if (!response?.user.isProfileSet) {
       router.replace("/(auth)/profile/basic");
     } else {
       router.replace("/(main)/search-meetings");

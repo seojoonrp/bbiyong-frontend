@@ -1,21 +1,27 @@
-// src/screens/auth/profile/LocationInfoScreen.tsx
+// src/screens/auth/profile/ProfileImageScreen.tsx
 
 import RedButton from "@/src/components/common/RedButton";
 import colors from "@/src/constants/colors";
+import { useAuthStore } from "@/src/stores/authStore";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function LocationInfoScreen() {
+export default function ProfileImageScreen() {
   const router = useRouter();
+  const updateUser = useAuthStore((state) => state.updateUser);
+
+  const [profileImageURI, setProfileImageURI] = useState<string>("DEFAULT");
 
   const handleNext = () => {
-    router.push("/(auth)/profile/image");
+    updateUser({ profileURI: profileImageURI });
+    router.push("/(auth)/profile/ready");
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.titleText}>거주하는 위치를 알려주세요</Text>
+      <Text style={styles.titleText}>프로필 이미지를 설정해보세요!</Text>
 
       <View style={styles.bottomButtonsContainer}>
         <RedButton
@@ -29,7 +35,7 @@ export default function LocationInfoScreen() {
         />
         <RedButton
           containerStyles={{ paddingHorizontal: 20, height: 48 }}
-          title="다음으로"
+          title={profileImageURI === "DEFAULT" ? "건너뛰기" : "다음으로"}
           onPress={handleNext}
         />
       </View>

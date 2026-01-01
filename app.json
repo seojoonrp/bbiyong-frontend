@@ -14,7 +14,9 @@
       "infoPlist": {
         "CFBundleURLTypes": [
           {
-            "CFBundleURLSchemes": ["kakao042a9e288400612af0e5adcb36195bc9"]
+            "CFBundleURLSchemes": [
+              "kakao042a9e288400612af0e5adcb36195bc9"
+            ]
           }
         ],
         "ITSAppUsesNonExemptEncryption": false
@@ -59,7 +61,8 @@
           "kakaoAppKey": "042a9e288400612af0e5adcb36195bc9"
         }
       ],
-      "expo-font"
+      "expo-font",
+      "@react-native-community/datetimepicker"
     ],
     "experiments": {
       "typedRoutes": true,

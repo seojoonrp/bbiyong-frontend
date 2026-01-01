@@ -3,6 +3,7 @@
 export enum Gender {
   Male = "MALE",
   Female = "FEMALE",
+  Undefined = "UNDEFINED",
 }
 
 export enum Provider {
@@ -17,10 +18,10 @@ export interface User {
   username: string;
   nickname: string;
   profileURI: string;
-  birthdate: string;
+  age: number;
   gender: Gender;
   level: number;
-  residences: string[];
+  residence: string;
   provider: Provider;
   socialID?: string;
   socialEmail?: string;
@@ -41,9 +42,9 @@ export interface LoginRequest {
 export interface SetProfileRequest {
   nickname: string;
   profileURI: string;
-  birthdate: string;
+  age: number;
   gender: Gender;
-  residences: string[];
+  residence: string;
 }
 
 export interface LoginResponse {

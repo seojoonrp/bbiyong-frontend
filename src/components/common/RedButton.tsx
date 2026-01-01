@@ -18,12 +18,12 @@ export default function RedButton({
     <TouchableOpacity
       style={[
         styles.button,
-        containerStyles,
         {
           backgroundColor: disabled
             ? colors.utils.disabled_grey
             : colors.main.red,
         },
+        containerStyles,
       ]}
       onPress={onPress}
       disabled={disabled}
