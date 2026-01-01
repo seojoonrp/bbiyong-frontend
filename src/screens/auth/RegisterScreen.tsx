@@ -1,13 +1,12 @@
 // src/screens/auth/RegisterScreen.tsx
 
-import { authApi } from "@/src/api/auth";
 import AuthStatusMessage from "@/src/components/auth/AuthStatusMessage";
 import AuthTextInput from "@/src/components/auth/AuthTextInput";
 import ConsentModal from "@/src/components/auth/ConsentModal";
 import RedButton from "@/src/components/common/RedButton";
 import DebugButton from "@/src/components/DebugButton";
 import colors from "@/src/constants/colors";
-import { useAuthStore } from "@/src/stores/authStore";
+import { authService } from "@/src/services/authService";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -27,7 +26,19 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function RegisterScreen() {
   const router = useRouter();
-  const login = useAuthStore((state) => state.login);
+
+  const handleRegister = async () => {
+    if (!isComplete) return;
+
+    try {
+      bottomSheetModalRef.current?.dismiss();
+
+      await authService.register({ username, password });
+      router.replace("/");
+    } catch (error) {
+      console.log("Registration error:", error);
+    }
+  };
 
   // 아이디/비번 입력 관련 설정
   const [username, setUsername] = useState<string>("");
@@ -45,25 +56,10 @@ export default function RegisterScreen() {
     if (!usernameCondition) return;
 
     try {
-      const { exists } = await authApi.checkUsername(username);
+      const { exists } = await authService.checkUsername(username);
       setUsernameAvailability(!exists);
     } catch (error) {
-      console.error("Username check error:", error);
-    }
-  };
-
-  const handleRegister = async () => {
-    if (!isComplete) return;
-
-    try {
-      bottomSheetModalRef.current?.dismiss();
-
-      await authApi.register({ username, password });
-
-      console.log("Registration successful");
-      router.replace("/");
-    } catch (error) {
-      console.error("Registration error:", error);
+      console.log("Username check error:", error);
     }
   };
 

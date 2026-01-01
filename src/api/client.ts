@@ -28,7 +28,8 @@ client.interceptors.request.use(
 client.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error("API Error:", error.response?.data || error.message);
+    console.log("API Error:", error.response?.data || error.message);
+
     return Promise.reject(error);
   }
 );

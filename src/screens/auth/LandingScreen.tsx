@@ -9,7 +9,7 @@ import AuthTextInput from "@/src/components/auth/AuthTextInput";
 import RedButton from "@/src/components/common/RedButton";
 import DebugButton from "@/src/components/DebugButton";
 import colors from "@/src/constants/colors";
-import { useAuthStore } from "@/src/stores/authStore";
+import { authService } from "@/src/services/authService";
 import { Provider } from "@/src/types/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { login as kakaoLogin } from "@react-native-seoul/kakao-login";
@@ -28,9 +28,23 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function LandingScreen() {
   const router = useRouter();
-  const login = useAuthStore((state) => state.login);
-  const socialLogin = useAuthStore((state) => state.socialLogin);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const handleLogin = async () => {
+    if (username == "" || password == "") return;
+
+    try {
+      setLoading(true);
+
+      await authService.login({ username, password });
+
+      router.push("/(main)/search-meetings");
+    } catch (error) {
+      console.log("Login error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleGoogleLogin = async () => {
     try {
@@ -41,7 +55,7 @@ export default function LandingScreen() {
         await handleSocialLoginResponse(Provider.Google, data.idToken);
       }
     } catch (error) {
-      console.error("Google Login Error:", error);
+      console.log("Google Login Error:", error);
     } finally {
       setLoading(false);
     }
@@ -55,7 +69,7 @@ export default function LandingScreen() {
         await handleSocialLoginResponse(Provider.Kakao, token.accessToken);
       }
     } catch (error) {
-      console.error("Kakao Login Error:", error);
+      console.log("Kakao Login Error:", error);
     } finally {
       setLoading(false);
     }
@@ -77,7 +91,7 @@ export default function LandingScreen() {
         );
       }
     } catch (error) {
-      console.error("Apple Login Error:", error);
+      console.log("Apple Login Error:", error);
     } finally {
       setLoading(false);
     }
@@ -87,7 +101,7 @@ export default function LandingScreen() {
     provider: Provider,
     token: string
   ) => {
-    const response = await socialLogin(provider, token);
+    const response = await authService.socialLogin(provider, token);
 
     if (response?.isNewUser) {
       router.replace("/(auth)/profile/basic");
@@ -103,32 +117,13 @@ export default function LandingScreen() {
       console.log("Ping response:", response.data);
       setIsOnline(true);
     } catch (error) {
-      console.error("Ping error:", error);
+      console.log("Ping error:", error);
       setIsOnline(false);
     }
   };
 
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
-  // TODO : Check login session
-
-  const onLoginPress = async () => {
-    if (username == "" || password == "") return;
-
-    try {
-      setLoading(true);
-
-      await login({ username, password });
-
-      console.log("Login successful");
-      router.push("/(main)/search-meetings");
-    } catch (error) {
-      console.error("Login error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -159,7 +154,7 @@ export default function LandingScreen() {
             title="로그인"
             containerStyles={{ width: "100%", height: 48 }}
             disabled={username === "" || password === ""}
-            onPress={onLoginPress}
+            onPress={handleLogin}
           />
         </View>
 

@@ -1,6 +1,7 @@
 // app/_layout.tsx
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -16,6 +17,15 @@ export default function RootLayout() {
     "Pretendard-Regular": require("../assets/fonts/Pretendard-Regular.ttf"),
     "Pretendard-Light": require("../assets/fonts/Pretendard-Light.ttf"),
     "PartialSansKR-Regular": require("../assets/fonts/PartialSansKR-Regular.ttf"),
+  });
+
+  // TODO : Check login session
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
+      iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
+    });
   });
 
   useEffect(() => {

@@ -1,12 +1,6 @@
 // src/api/auth.ts
 
-import {
-  LoginRequest,
-  LoginResponse,
-  RegisterRequest,
-  SetProfileRequest,
-  User,
-} from "../types/auth";
+import { LoginRequest, LoginResponse, RegisterRequest } from "../types/auth";
 import client from "./client";
 
 export const authApi = {
@@ -50,11 +44,4 @@ export const authApi = {
     });
     return response.data;
   },
-};
-
-export const postSetProfile = async (
-  data: SetProfileRequest
-): Promise<User> => {
-  const response = await client.post<User>("/auth/profile", data);
-  return response.data;
 };
