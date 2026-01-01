@@ -37,11 +37,12 @@
     },
     "plugins": [
       "expo-router",
+      "expo-apple-authentication",
       [
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
+          "imageWidth": 128,
           "resizeMode": "contain",
           "backgroundColor": "#fcfcfc"
         }
@@ -57,7 +58,8 @@
         {
           "kakaoAppKey": "042a9e288400612af0e5adcb36195bc9"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,
