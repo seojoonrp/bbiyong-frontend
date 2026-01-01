@@ -17,7 +17,7 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if (loaded && error) {
+    if (loaded || error) {
       SplashScreen.hideAsync();
     }
   }, [loaded, error]);
@@ -30,6 +30,8 @@ export default function RootLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="(auth)" />
       <Stack.Screen name="(main)" />
+      <Stack.Screen name="(menu)" />
+      <Stack.Screen name="chat/[id]" />
     </Stack>
   );
 }

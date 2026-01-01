@@ -1,3 +1,5 @@
+// app/(main)/_layout.tsx
+
 import { Tabs } from "expo-router";
 
 export default function MainScreenLayout() {
