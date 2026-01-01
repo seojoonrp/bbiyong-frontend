@@ -12,6 +12,11 @@
       "bundleIdentifier": "com.seojoonrp.bbiyong",
       "supportsTablet": true,
       "infoPlist": {
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": ["kakao042a9e288400612af0e5adcb36195bc9"]
+          }
+        ],
         "ITSAppUsesNonExemptEncryption": false
       }
     },
@@ -39,6 +44,18 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#fcfcfc"
+        }
+      ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.175116759320-h6o9pob6mhhgmlf0jn05esu46bdmllcu"
+        }
+      ],
+      [
+        "@react-native-seoul/kakao-login",
+        {
+          "kakaoAppKey": "042a9e288400612af0e5adcb36195bc9"
         }
       ]
     ],
