@@ -3,9 +3,15 @@
 import AuthStatusMessage from "@/src/components/auth/AuthStatusMessage";
 import AuthTextInput from "@/src/components/auth/AuthTextInput";
 import RedButton from "@/src/components/common/RedButton";
+import DebugButton from "@/src/components/DebugButton";
 import colors from "@/src/constants/colors";
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Keyboard,
   StyleSheet,
@@ -19,6 +25,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function RegisterScreen() {
   const router = useRouter();
 
+  // 아이디/비번 입력 관련 설정
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -62,6 +69,26 @@ export default function RegisterScreen() {
     setConfirmPasswordCondition(password === confirmPassword);
   }, [password, confirmPassword]);
 
+  // 약관 동의 바텀시트 관련 설정
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const snapPoints = useMemo(() => ["50%"], []);
+
+  const openTermsModal = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        pressBehavior="close"
+      />
+    ),
+    []
+  );
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView style={styles.container}>
@@ -74,8 +101,8 @@ export default function RegisterScreen() {
             onChangeText={setUsername}
           />
           <AuthStatusMessage
-            okMessage="3자 이상 15자 이하 영문, 숫자"
-            errorMessage="3자 이상 15자 이하 영문, 숫자"
+            okMessage="3자 이상 15자 이하 (영문, 숫자만 가능)"
+            errorMessage="3자 이상 15자 이하 (영문, 숫자만 가능)"
             isOk={usernameCondition}
             visible={true}
           />
@@ -118,6 +145,7 @@ export default function RegisterScreen() {
         <RedButton
           title="다음"
           containerStyles={{ width: "100%", height: 48 }}
+          onPress={openTermsModal}
           disabled={!isComplete}
         />
 
@@ -127,6 +155,32 @@ export default function RegisterScreen() {
             <Text style={{ textDecorationLine: "underline" }}>로그인</Text>
           </Text>
         </TouchableOpacity>
+
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          index={0}
+          snapPoints={snapPoints}
+          backdropComponent={renderBackdrop}
+          backgroundStyle={{
+            backgroundColor: colors.main.white,
+            borderRadius: 24,
+          }}
+        >
+          <BottomSheetView style={styles.contentContainer}>
+            <Text>ㅎㅇ</Text>
+          </BottomSheetView>
+        </BottomSheetModal>
+
+        <DebugButton
+          index={0}
+          label="Fill test user"
+          onPress={() => {
+            setUsername("testuser");
+            setPassword("Test@1234");
+            setConfirmPassword("Test@1234");
+            setUsernameAvailability(true);
+          }}
+        />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -138,7 +192,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff",
-    paddingHorizontal: "30%",
+    paddingHorizontal: 32,
     gap: 32,
   },
   title: {
@@ -152,5 +206,10 @@ const styles = StyleSheet.create({
     fontFamily: "Pretendard-Regular",
     letterSpacing: -0.3,
     color: colors.utils.grey,
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: "center",
+    padding: 16,
   },
 });
