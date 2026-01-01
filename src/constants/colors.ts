@@ -1,3 +1,5 @@
+// src/constants/colors.ts
+
 export default {
   main: {
     red: "#C42323",

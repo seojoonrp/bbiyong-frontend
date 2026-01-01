@@ -2,6 +2,7 @@
 
 import AuthStatusMessage from "@/src/components/auth/AuthStatusMessage";
 import AuthTextInput from "@/src/components/auth/AuthTextInput";
+import ConsentModal from "@/src/components/auth/ConsentModal";
 import RedButton from "@/src/components/common/RedButton";
 import DebugButton from "@/src/components/DebugButton";
 import colors from "@/src/constants/colors";
@@ -82,7 +83,7 @@ export default function RegisterScreen() {
       <BottomSheetBackdrop
         {...props}
         disappearsOnIndex={-1}
-        appearsOnIndex={0}
+        appearsOnIndex={1}
         pressBehavior="close"
       />
     ),
@@ -158,7 +159,7 @@ export default function RegisterScreen() {
 
         <BottomSheetModal
           ref={bottomSheetModalRef}
-          index={0}
+          index={1}
           snapPoints={snapPoints}
           backdropComponent={renderBackdrop}
           backgroundStyle={{
@@ -167,7 +168,11 @@ export default function RegisterScreen() {
           }}
         >
           <BottomSheetView style={styles.contentContainer}>
-            <Text>ㅎㅇ</Text>
+            <ConsentModal
+              onAgree={() => {
+                console.log("Agreed to terms");
+              }}
+            />
           </BottomSheetView>
         </BottomSheetModal>
 
