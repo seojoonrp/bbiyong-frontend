@@ -5,9 +5,9 @@ import { KakaoMapView } from "@/src/components/location/KakaoMapView";
 import colors from "@/src/constants/colors";
 import { useLocationSetup } from "@/src/hooks/useLocationSetup";
 import { useAuthStore } from "@/src/stores/authStore";
-import { Address } from "@/src/types/auth";
+import { Location } from "@/src/types/auth";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Postcode from "react-native-daum-postcode";
 import Modal from "react-native-modal";
@@ -30,32 +30,20 @@ export default function LocationInfoScreen() {
 
   const [isComplete, setIsComplete] = useState(false);
 
-  const [finalFullAddress, setFinalFullAddress] = useState("");
-  useEffect(() => {
-    setFinalFullAddress(fullAddress);
-  }, [fullAddress]);
-
   const handleLocationChange = (data: any) => {
-    console.log("Location changed:", data);
-    setFinalFullAddress(data.address);
     setRegionName(data.regionName);
     setCoords({ lat: data.lat, lng: data.lng });
     setIsComplete(true);
   };
 
   const handleNext = () => {
-    if (finalFullAddress === "" || !coords || !isComplete) return;
+    if (!regionName || !coords || !isComplete) return;
 
-    const residenceData: Address = {
-      location: {
-        type: "Point",
-        coordinates: [Number(coords.lng), Number(coords.lat)],
-      },
-      fullAddress: finalFullAddress,
-      regionName: regionName,
+    const locationData: Location = {
+      type: "Point" as const,
+      coordinates: [Number(coords.lng), Number(coords.lat)],
     };
-    console.log("Residence Data:", residenceData);
-    updateUser({ residence: residenceData });
+    updateUser({ location: locationData, regionName: regionName });
 
     router.push("/(auth)/profile/image");
   };
@@ -106,7 +94,7 @@ export default function LocationInfoScreen() {
           containerStyles={{ paddingHorizontal: 20, height: 48 }}
           title="다음으로"
           onPress={handleNext}
-          disabled={finalFullAddress === "" || !coords}
+          disabled={!coords}
         />
       </View>
 

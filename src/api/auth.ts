@@ -1,6 +1,11 @@
 // src/api/auth.ts
 
-import { LoginRequest, LoginResponse, RegisterRequest } from "../types/auth";
+import {
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest,
+  SetProfileRequest,
+} from "../types/auth";
 import client from "./client";
 
 export const authApi = {
@@ -42,6 +47,14 @@ export const authApi = {
     const response = await client.post<LoginResponse>("/auth/apple", {
       identityToken,
     });
+    return response.data;
+  },
+
+  setProfile: async (data: SetProfileRequest) => {
+    const response = await client.post<{ message: string }>(
+      "/auth/profile",
+      data
+    );
     return response.data;
   },
 };

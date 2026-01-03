@@ -2,7 +2,12 @@
 
 import { authApi } from "../api/auth";
 import { useAuthStore } from "../stores/authStore";
-import { LoginRequest, Provider, RegisterRequest } from "../types/auth";
+import {
+  LoginRequest,
+  Provider,
+  RegisterRequest,
+  SetProfileRequest,
+} from "../types/auth";
 
 export const authService = {
   checkUsername: async (username: string) => {
@@ -40,6 +45,11 @@ export const authService = {
 
     console.log("Social login successful (" + provider + ")");
     console.log("Token:", response.accessToken);
+    return response;
+  },
+
+  setProfile: async (data: SetProfileRequest) => {
+    const response = await authApi.setProfile(data);
     return response;
   },
 

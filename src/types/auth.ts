@@ -18,12 +18,6 @@ export interface Location {
   coordinates: [number, number]; // [longitude, latitude]
 }
 
-export interface Address {
-  location: Location;
-  fullAddress: string;
-  regionName: string;
-}
-
 export interface User {
   id: string;
   username: string;
@@ -32,7 +26,8 @@ export interface User {
   age: number;
   gender: Gender;
   level: number;
-  residence: Address;
+  location: Location;
+  regionName: string;
   provider: Provider;
   socialID?: string;
   socialEmail?: string;
@@ -55,7 +50,8 @@ export interface SetProfileRequest {
   profileURI: string;
   age: number;
   gender: Gender;
-  residence: Address;
+  location: Location;
+  regionName: string;
 }
 
 export interface LoginResponse {

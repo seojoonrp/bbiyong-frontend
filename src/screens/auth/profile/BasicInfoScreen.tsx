@@ -28,7 +28,7 @@ export default function BasicInfoScreen() {
 
   const [isComplete, setIsComplete] = useState<boolean>(false);
   useEffect(() => {
-    if (nickname !== "" && gender !== Gender.Undefined) {
+    if (nickname !== "" && age !== "" && gender !== Gender.Undefined) {
       setIsComplete(true);
     } else {
       setIsComplete(false);
