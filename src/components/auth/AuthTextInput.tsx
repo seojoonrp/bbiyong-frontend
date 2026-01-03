@@ -13,6 +13,8 @@ interface AuthTextInputProps {
   onChangeText?: (text: string) => void;
   onBlur?: () => void;
   secureOptions?: boolean;
+  keyboardType?: "default" | "numeric" | "email-address" | "phone-pad";
+  maxLength?: number;
 }
 
 export default function AuthTextInput(props: AuthTextInputProps) {
@@ -27,6 +29,8 @@ export default function AuthTextInput(props: AuthTextInputProps) {
         onChangeText={props.onChangeText}
         onBlur={props.onBlur}
         secureTextEntry={!isVisible}
+        keyboardType={props.keyboardType}
+        maxLength={props.maxLength}
       />
       {props.secureOptions && (
         <TouchableOpacity
