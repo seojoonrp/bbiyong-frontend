@@ -13,6 +13,17 @@ export enum Provider {
   Apple = "APPLE",
 }
 
+export interface Location {
+  type: "Point";
+  coordinates: [number, number]; // [longitude, latitude]
+}
+
+export interface Address {
+  location: Location;
+  fullAddress: string;
+  regionName: string;
+}
+
 export interface User {
   id: string;
   username: string;
@@ -21,7 +32,7 @@ export interface User {
   age: number;
   gender: Gender;
   level: number;
-  residence: string;
+  residence: Address;
   provider: Provider;
   socialID?: string;
   socialEmail?: string;
@@ -44,7 +55,7 @@ export interface SetProfileRequest {
   profileURI: string;
   age: number;
   gender: Gender;
-  residence: string;
+  residence: Address;
 }
 
 export interface LoginResponse {

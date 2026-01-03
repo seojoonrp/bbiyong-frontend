@@ -7,6 +7,8 @@ export default {
     maroon: "#543131",
   },
   utils: {
+    white: "#FFFFFF",
+    black: "#000000",
     grey: "#CFC5C5",
     light_red: "#E4A2A2",
     disabled_grey: "#959595",
