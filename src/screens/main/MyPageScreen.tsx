@@ -1,16 +1,16 @@
-// src/screens/main/MenuScreen.tsx
+// src/screens/main/MyPageScreen.tsx
 
 import DebugButton from "@/src/components/DebugButton";
 import { useRouter } from "expo-router";
 import { StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function MenuScreen() {
+export default function MyPageScreen() {
   const router = useRouter();
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>MenuScreen</Text>
+      <Text>MyPageScreen</Text>
 
       <DebugButton
         index={0}

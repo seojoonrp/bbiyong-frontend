@@ -15,6 +15,7 @@ export interface Meeting {
   placeName: string;
   location: Location;
   hostID: string;
+  hostNickname: string;
   participantIDs: string[];
   maxParticipants: number;
   ageRange: [number, number];
