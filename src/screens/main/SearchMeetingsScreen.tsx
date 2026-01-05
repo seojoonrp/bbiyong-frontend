@@ -5,7 +5,7 @@ import PlusIcon from "@/assets/images/icons/main/search/plus.svg";
 import SearchBar from "@/src/components/common/SearchBar";
 import colors from "@/src/constants/colors";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Keyboard,
   StyleSheet,
@@ -21,14 +21,52 @@ import { meetingTestData } from "@/src/constants/testData/testData";
 import { Meeting } from "@/src/types/meetingType";
 import { FlatList } from "react-native-gesture-handler";
 
+import MeetingInfoModal from "@/src/components/main/MeetingInfoModal";
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
+
 export default function SearchMeetingsScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
   const [searchText, setSearchText] = useState<string>("");
 
-  const [meetingData, setMeetingData] = useState<Meeting[]>(meetingTestData);
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const snapPoints = ["20%"];
+  const animationConfigs = useMemo(
+    () => ({
+      damping: 40,
+      stiffness: 150,
+      mass: 0.5,
+    }),
+    []
+  );
 
+  const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
+
+  const handlePressMeetingCard = useCallback((meeting: Meeting) => {
+    if (!meeting) return;
+
+    setSelectedMeeting(meeting);
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={1}
+        pressBehavior="close"
+      />
+    ),
+    []
+  );
+
+  const [meetingData, setMeetingData] = useState<Meeting[]>(meetingTestData);
   // Test data
   useEffect(() => {
     setMeetingData(meetingTestData);
@@ -37,7 +75,10 @@ export default function SearchMeetingsScreen() {
   const renderMeetingItem = (meeting: Meeting) => {
     return (
       <View style={{ marginBottom: 12 }}>
-        <MeetingCard meeting={meeting} />
+        <MeetingCard
+          meeting={meeting}
+          onPress={() => handlePressMeetingCard(meeting)}
+        />
       </View>
     );
   };
@@ -77,11 +118,28 @@ export default function SearchMeetingsScreen() {
           contentContainerStyle={{ paddingVertical: 8 }}
         />
 
-        {/* <DebugButton
-        index={0}
-        label="Go to Landing"
-        onPress={() => router.replace("/")}
-          /> */}
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          index={1}
+          snapPoints={snapPoints}
+          backdropComponent={renderBackdrop}
+          onDismiss={() => setSelectedMeeting(null)}
+          animationConfigs={animationConfigs}
+          backgroundStyle={{
+            borderRadius: 32,
+            backgroundColor: colors.main.white,
+          }}
+        >
+          <BottomSheetView style={styles.contentContainer}>
+            {selectedMeeting ? (
+              <MeetingInfoModal meeting={selectedMeeting} />
+            ) : (
+              <Text style={styles.errorMessage}>
+                문제가 발생했습니다. 다시 시도해주세요.
+              </Text>
+            )}
+          </BottomSheetView>
+        </BottomSheetModal>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -99,17 +157,17 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingBottom: 8,
     backgroundColor: colors.main.white,
-    gap: 10,
+    gap: 12,
     zIndex: 9999,
   },
   titleRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: 5,
     marginLeft: 2,
   },
   titleText: {
-    fontSize: 30,
+    fontSize: 32,
     fontFamily: "GumiRomance",
     letterSpacing: -1.2,
     color: colors.main.red,
@@ -138,5 +196,17 @@ const styles = StyleSheet.create({
   },
   listStyle: {
     width: "100%",
+  },
+  contentContainer: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+  },
+  errorMessage: {
+    fontSize: 14,
+    fontFamily: "Pretendard-Regular",
+    letterSpacing: -0.3,
+    color: colors.main.maroon,
+    marginTop: 24,
   },
 });

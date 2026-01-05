@@ -23,7 +23,7 @@ export interface Meeting {
   status: MeetingStatus;
   participantIDs: string[];
   maxParticipants: number;
-  likeCount: number;
+  saveCount: number;
   createdAt: string;
 }
 
