@@ -12,17 +12,18 @@ export interface Meeting {
   id: string;
   title: string;
   description: string;
+  category: string;
+  imageURL: string;
   placeName: string;
   location: Location;
-  hostID: string;
-  hostNickname: string;
-  participantIDs: string[];
-  maxParticipants: number;
-  ageRange: [number, number];
   meetingTime: string;
   dayOfWeek: number;
-  category: string;
+  ageRange: [number, number];
+  hostID: string;
   status: MeetingStatus;
+  participantIDs: string[];
+  maxParticipants: number;
+  likeCount: number;
   createdAt: string;
 }
 
