@@ -1,6 +1,6 @@
 // src/screens/auth/profile/LocationInfoScreen.tsx
 
-import RedButton from "@/src/components/common/RedButton";
+import RedButton from "@/src/components/auth/RedButton";
 import { KakaoMapView } from "@/src/components/location/KakaoMapView";
 import colors from "@/src/constants/colors";
 import { useLocationSetup } from "@/src/hooks/useLocationSetup";

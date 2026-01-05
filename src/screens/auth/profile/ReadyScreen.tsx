@@ -1,6 +1,6 @@
 // src/screens/auth/profile/ReadyScreen.tsx
 
-import RedButton from "@/src/components/common/RedButton";
+import RedButton from "@/src/components/auth/RedButton";
 import colors from "@/src/constants/colors";
 import { useRouter } from "expo-router";
 import { StyleSheet, Text } from "react-native";

@@ -3,7 +3,7 @@
 import AuthStatusMessage from "@/src/components/auth/AuthStatusMessage";
 import AuthTextInput from "@/src/components/auth/AuthTextInput";
 import ConsentModal from "@/src/components/auth/ConsentModal";
-import RedButton from "@/src/components/common/RedButton";
+import RedButton from "@/src/components/auth/RedButton";
 import DebugButton from "@/src/components/DebugButton";
 import colors from "@/src/constants/colors";
 import { authService } from "@/src/services/authService";

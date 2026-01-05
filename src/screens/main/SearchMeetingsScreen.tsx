@@ -21,7 +21,7 @@ import { meetingTestData } from "@/src/constants/testData/testData";
 import { Meeting } from "@/src/types/meetingType";
 import { FlatList } from "react-native-gesture-handler";
 
-import MeetingInfoModal from "@/src/components/main/MeetingInfoModal";
+import MeetingInfoModal from "@/src/components/common/MeetingInfoModal";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -155,6 +155,7 @@ export default function SearchMeetingsScreen() {
             {selectedMeeting ? (
               <MeetingInfoModal
                 meeting={selectedMeeting}
+                isMyMeeting={false}
                 onParticipantPress={handleParticipantPress}
               />
             ) : null}

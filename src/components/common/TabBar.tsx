@@ -15,7 +15,7 @@ const ICON_MAP: Record<string, any> = {
   "my-page": MyIcon,
 };
 
-export default function MyTabBar({
+export default function TabBar({
   state,
   descriptors,
   navigation,

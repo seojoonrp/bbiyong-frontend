@@ -1,25 +1,42 @@
 import { Meeting } from "@/src/types/meetingType";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
+import ChatIcon from "@/assets/images/icons/main/my-meeting/chat.svg";
 import DistanceIcon from "@/assets/images/icons/meeting/distance.svg";
 import HeartIconFilled from "@/assets/images/icons/meeting/heart-filled.svg";
+import WhenIconEmpty from "@/assets/images/icons/meeting/when-empty.svg";
 import colors from "@/src/constants/colors";
 import InfoAndImage from "./InfoAndImage";
 
 interface MeetingCardProps {
   meeting: Meeting;
   showTimeLeft?: boolean;
+  isMyMeeting?: boolean;
+  unseenMessageCount?: number;
   onPress?: () => void;
   // TODO : 참여 친구 목록
 }
 
-export default function MeetingCard({ meeting, onPress }: MeetingCardProps) {
+export default function MeetingCard({
+  meeting,
+  showTimeLeft,
+  isMyMeeting,
+  unseenMessageCount,
+  onPress,
+}: MeetingCardProps) {
   return (
     <TouchableOpacity
       style={styles.container}
       activeOpacity={0.7}
       onPress={onPress}
     >
+      {showTimeLeft && (
+        <View style={[styles.rowContainer]}>
+          <WhenIconEmpty width={18} height={18} color={colors.main.white} />
+          <Text style={styles.timeLeftText}>5시간 남음</Text>
+        </View>
+      )}
+
       <View style={[styles.rowContainer, { justifyContent: "space-between" }]}>
         <Text style={styles.titleText}>{meeting.title}</Text>
         <View style={styles.rowContainer}>
@@ -44,6 +61,18 @@ export default function MeetingCard({ meeting, onPress }: MeetingCardProps) {
           </View>
         </View>
       </View>
+
+      {isMyMeeting && (
+        <TouchableOpacity style={styles.chatContainer} activeOpacity={0.9}>
+          <ChatIcon width={20} height={20} color={colors.main.red} />
+          <Text style={styles.chatRoomText}>채팅방</Text>
+          {unseenMessageCount && unseenMessageCount > 0 && (
+            <View style={styles.unseenMessageContainer}>
+              <Text style={styles.unseenMessageText}>{unseenMessageCount}</Text>
+            </View>
+          )}
+        </TouchableOpacity>
+      )}
     </TouchableOpacity>
   );
 }
@@ -68,6 +97,12 @@ const styles = StyleSheet.create({
     letterSpacing: -0.3,
     color: colors.main.white,
   },
+  timeLeftText: {
+    fontSize: 16,
+    fontFamily: "Pretendard-Regular",
+    letterSpacing: -0.4,
+    color: colors.main.white,
+  },
   distanceText: {
     fontSize: 20,
     fontFamily: "Pretendard-SemiBold",
@@ -78,6 +113,38 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Pretendard-Regular",
     letterSpacing: -0.3,
+    color: colors.main.white,
+  },
+  chatContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.main.white,
+    paddingVertical: 12,
+    paddingRight: 2,
+    borderRadius: 16,
+    marginTop: 6,
+    gap: 3,
+  },
+  chatRoomText: {
+    fontSize: 19,
+    fontFamily: "Pretendard-SemiBold",
+    letterSpacing: -0.6,
+    color: colors.main.red,
+  },
+  unseenMessageContainer: {
+    minWidth: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: colors.main.red,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 6,
+    marginLeft: 5,
+  },
+  unseenMessageText: {
+    fontSize: 12,
+    fontFamily: "Pretendard-SemiBold",
     color: colors.main.white,
   },
 });

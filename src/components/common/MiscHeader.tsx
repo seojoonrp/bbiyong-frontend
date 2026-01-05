@@ -13,8 +13,6 @@ export default function MiscHeader({ title }: { title: string }) {
   return (
     <View
       style={{
-        position: "absolute",
-        top: 0,
         width: "100%",
         paddingTop: insets.top + 8,
         paddingBottom: 8,
@@ -30,7 +28,7 @@ export default function MiscHeader({ title }: { title: string }) {
         }}
       >
         <TouchableOpacity
-          style={{ padding: 8, position: "absolute", left: 32 }}
+          style={{ padding: 8, position: "absolute", left: 2 }}
           onPress={() => router.back()}
           activeOpacity={0.5}
         >

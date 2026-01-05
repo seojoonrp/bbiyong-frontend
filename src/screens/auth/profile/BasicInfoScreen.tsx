@@ -1,7 +1,7 @@
 // src/screens/auth/profile/BasicInfoScreen.tsx
 
 import AuthTextInput from "@/src/components/auth/AuthTextInput";
-import RedButton from "@/src/components/common/RedButton";
+import RedButton from "@/src/components/auth/RedButton";
 import DebugButton from "@/src/components/DebugButton";
 import colors from "@/src/constants/colors";
 import { useAuthStore } from "@/src/stores/authStore";

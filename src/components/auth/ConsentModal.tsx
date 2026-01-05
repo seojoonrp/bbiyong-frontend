@@ -3,7 +3,7 @@ import YesIcon from "@/assets/images/icons/auth/consent-yes.svg";
 import colors from "@/src/constants/colors";
 import { useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import RedButton from "../common/RedButton";
+import RedButton from "./RedButton";
 
 interface ConsentModalProps {
   onAgree: () => void;

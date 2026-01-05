@@ -1,6 +1,7 @@
 // src/components/main/MeetingInfoModal.tsx
 
 import KakaoMapIcon from "@/assets/images/icons/common/kakaomap.svg";
+import ChatIcon from "@/assets/images/icons/main/my-meeting/chat.svg";
 import CrownIcon from "@/assets/images/icons/meeting/crown.svg";
 import DistanceIcon from "@/assets/images/icons/meeting/distance.svg";
 import HeartIconEmpty from "@/assets/images/icons/meeting/heart-empty.svg";
@@ -11,10 +12,12 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import InfoAndImage from "../common/InfoAndImage";
+import InfoAndImage from "./InfoAndImage";
 
 interface MeetingInfoModalProps {
   meeting: Meeting;
+  isMyMeeting?: boolean;
+  unseenMessageCount?: number;
   onParticipantPress: () => void;
   // TODO : 참여 친구 목록
 }
@@ -38,6 +41,8 @@ const IconTextRow = ({
 
 export default function MeetingInfoModal({
   meeting,
+  isMyMeeting,
+  unseenMessageCount,
   onParticipantPress,
 }: MeetingInfoModalProps) {
   if (!meeting) return null;
@@ -102,22 +107,34 @@ export default function MeetingInfoModal({
         <Text style={styles.descText}>{meeting.description}</Text>
       </View>
 
-      <View style={styles.bottomButtonRow}>
-        <TouchableOpacity
-          style={styles.heartButton}
-          onPress={() => setIsLiked(!isLiked)}
-          activeOpacity={0.7}
-        >
-          {isLiked ? (
-            <HeartIconFilled width={22} height={22} color={colors.main.red} />
-          ) : (
-            <HeartIconEmpty width={22} height={22} color="#C5BEBE" />
+      {isMyMeeting ? (
+        <TouchableOpacity style={styles.chatContainer} activeOpacity={0.9}>
+          <ChatIcon width={20} height={20} color={colors.main.white} />
+          <Text style={styles.chatRoomText}>채팅방</Text>
+          {unseenMessageCount && unseenMessageCount > 0 && (
+            <View style={styles.unseenMessageContainer}>
+              <Text style={styles.unseenMessageText}>{unseenMessageCount}</Text>
+            </View>
           )}
         </TouchableOpacity>
-        <TouchableOpacity style={styles.joinButton} activeOpacity={0.7}>
-          <Text style={styles.joinButtonText}>참여하기</Text>
-        </TouchableOpacity>
-      </View>
+      ) : (
+        <View style={styles.bottomButtonRow}>
+          <TouchableOpacity
+            style={styles.heartButton}
+            onPress={() => setIsLiked(!isLiked)}
+            activeOpacity={0.7}
+          >
+            {isLiked ? (
+              <HeartIconFilled width={22} height={22} color={colors.main.red} />
+            ) : (
+              <HeartIconEmpty width={22} height={22} color="#C5BEBE" />
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.joinButton} activeOpacity={0.7}>
+            <Text style={styles.joinButtonText}>참여하기</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
@@ -226,5 +243,37 @@ const styles = StyleSheet.create({
     fontFamily: "Pretendard-SemiBold",
     letterSpacing: -0.3,
     color: colors.main.white,
+  },
+  chatContainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.main.red,
+    paddingVertical: 14,
+    paddingRight: 2,
+    borderRadius: 18,
+    gap: 3,
+  },
+  chatRoomText: {
+    fontSize: 19,
+    fontFamily: "Pretendard-SemiBold",
+    letterSpacing: -0.6,
+    color: colors.main.white,
+  },
+  unseenMessageContainer: {
+    minWidth: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: colors.main.white,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 6,
+    marginLeft: 5,
+  },
+  unseenMessageText: {
+    fontSize: 12,
+    fontFamily: "Pretendard-SemiBold",
+    color: colors.main.red,
   },
 });
