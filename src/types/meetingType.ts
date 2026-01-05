@@ -21,6 +21,7 @@ export interface Meeting {
   ageRange: [number, number];
   meetingTime: string;
   dayOfWeek: number;
+  category: string;
   status: MeetingStatus;
   createdAt: string;
 }

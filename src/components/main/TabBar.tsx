@@ -49,8 +49,8 @@ export default function MyTabBar({
             activeOpacity={0.5}
           >
             <IconComponent
-              width={22}
-              height={22}
+              width={24}
+              height={24}
               color={isFocused ? colors.main.red : colors.utils.grey}
               strokeWidth={isFocused ? 1.5 : 1}
             />
