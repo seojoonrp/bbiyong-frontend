@@ -1,21 +1,17 @@
 // src/components/main/MeetingInfoModal.tsx
 
 import KakaoMapIcon from "@/assets/images/icons/common/kakaomap.svg";
-import AgeRangeIcon from "@/assets/images/icons/meeting/age-range.svg";
-import CalenderIcon from "@/assets/images/icons/meeting/calendar.svg";
-import ClockIcon from "@/assets/images/icons/meeting/clock.svg";
 import CrownIcon from "@/assets/images/icons/meeting/crown.svg";
 import DistanceIcon from "@/assets/images/icons/meeting/distance.svg";
 import HeartIconEmpty from "@/assets/images/icons/meeting/heart-empty.svg";
 import HeartIconFilled from "@/assets/images/icons/meeting/heart-filled.svg";
-import LocationIcon from "@/assets/images/icons/meeting/location.svg";
-import PeopleIcon from "@/assets/images/icons/meeting/people.svg";
 import colors from "@/src/constants/colors";
 import { Meeting } from "@/src/types/meetingType";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import InfoAndImage from "../common/InfoAndImage";
 
 interface MeetingInfoModalProps {
   meeting: Meeting;
@@ -88,70 +84,7 @@ export default function MeetingInfoModal({ meeting }: MeetingInfoModalProps) {
         </View>
       </View>
 
-      <View
-        style={[
-          styles.rowContainer,
-          { width: "100%", justifyContent: "space-between" },
-        ]}
-      >
-        <View style={{ flexGrow: 1, gap: 5 }}>
-          <IconTextRow
-            icon={
-              <PeopleIcon
-                width={ICON_SIZE}
-                height={ICON_SIZE}
-                color={colors.main.red}
-              />
-            }
-            text={`${meeting.participantIDs.length}/${meeting.maxParticipants}명`}
-          />
-          <IconTextRow
-            icon={
-              <LocationIcon
-                width={ICON_SIZE}
-                height={ICON_SIZE}
-                color={colors.main.red}
-              />
-            }
-            text={meeting.placeName}
-          />
-          <IconTextRow
-            icon={
-              <AgeRangeIcon
-                width={ICON_SIZE}
-                height={ICON_SIZE}
-                color={colors.main.red}
-              />
-            }
-            text={`${meeting.ageRange[0]}~${meeting.ageRange[1]}세`}
-          />
-          <View style={[styles.rowContainer, { gap: 16 }]}>
-            <IconTextRow
-              icon={
-                <CalenderIcon
-                  width={ICON_SIZE}
-                  height={ICON_SIZE}
-                  color={colors.main.red}
-                />
-              }
-              text={formattedDate}
-            />
-            <IconTextRow
-              icon={
-                <ClockIcon
-                  width={ICON_SIZE}
-                  height={ICON_SIZE}
-                  color={colors.main.red}
-                />
-              }
-              text={formattedTime}
-            />
-          </View>
-        </View>
-        <View style={styles.imageContainer}>
-          <Text>이미지</Text>
-        </View>
-      </View>
+      <InfoAndImage meeting={meeting} color="red" />
 
       <Text style={styles.friendText}>
         aaa님 외 2명의 친구들이 참여하고 있어요!
