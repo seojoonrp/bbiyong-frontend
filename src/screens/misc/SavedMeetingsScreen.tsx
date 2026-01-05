@@ -1,6 +1,6 @@
 // src/screens/misc/SavedMeetingsScreen.tsx
 
-import DebugButton from "@/src/components/DebugButton";
+import MiscHeader from "@/src/components/common/MiscHeader";
 import { useRouter } from "expo-router";
 import { StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,9 +10,9 @@ export default function SavedMeetingsScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>SavedMeetingsScreen</Text>
+      <MiscHeader title="저장한 모임" />
 
-      <DebugButton index={0} label="Go back" onPress={() => router.back()} />
+      <Text>SavedMeetingsScreen</Text>
     </SafeAreaView>
   );
 }

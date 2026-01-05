@@ -1,6 +1,6 @@
 // src/screens/misc/CreateMeetingScreen.tsx
 
-import DebugButton from "@/src/components/DebugButton";
+import MiscHeader from "@/src/components/common/MiscHeader";
 import { useRouter } from "expo-router";
 import { StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,9 +10,9 @@ export default function CreateMeetingScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>CreateMeetingScreen</Text>
+      <MiscHeader title="모임 만들기" />
 
-      <DebugButton index={0} label="Go back" onPress={() => router.back()} />
+      <Text>CreateMeetingScreen</Text>
     </SafeAreaView>
   );
 }

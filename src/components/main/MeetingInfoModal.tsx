@@ -15,6 +15,7 @@ import InfoAndImage from "../common/InfoAndImage";
 
 interface MeetingInfoModalProps {
   meeting: Meeting;
+  onParticipantPress: () => void;
   // TODO : 참여 친구 목록
 }
 
@@ -35,7 +36,10 @@ const IconTextRow = ({
   );
 };
 
-export default function MeetingInfoModal({ meeting }: MeetingInfoModalProps) {
+export default function MeetingInfoModal({
+  meeting,
+  onParticipantPress,
+}: MeetingInfoModalProps) {
   if (!meeting) return null;
 
   const router = useRouter();
@@ -76,8 +80,12 @@ export default function MeetingInfoModal({ meeting }: MeetingInfoModalProps) {
             </Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.profileButton} activeOpacity={0.7}>
-          <Text style={styles.profileButtonText}>참여자 프로필 보기</Text>
+        <TouchableOpacity
+          style={styles.profileButton}
+          onPress={onParticipantPress}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.profileButtonText}>참가자 프로필 보기</Text>
         </TouchableOpacity>
         <View style={{ borderRadius: 14, overflow: "hidden" }}>
           <KakaoMapIcon width={36} height={36} />

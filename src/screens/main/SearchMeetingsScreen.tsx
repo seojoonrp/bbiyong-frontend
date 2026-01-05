@@ -4,7 +4,7 @@ import MainIcon from "@/assets/images/icons/main/search/main.svg";
 import PlusIcon from "@/assets/images/icons/main/search/plus.svg";
 import SearchBar from "@/src/components/common/SearchBar";
 import colors from "@/src/constants/colors";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Keyboard,
@@ -33,9 +33,9 @@ export default function SearchMeetingsScreen() {
   const insets = useSafeAreaInsets();
 
   const [searchText, setSearchText] = useState<string>("");
+  const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = ["20%"];
   const animationConfigs = useMemo(
     () => ({
       damping: 40,
@@ -45,14 +45,18 @@ export default function SearchMeetingsScreen() {
     []
   );
 
-  const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
+  const isNavigatingRef = useRef(false);
+  useFocusEffect(
+    useCallback(() => {
+      if (selectedMeeting) {
+        setTimeout(() => {
+          bottomSheetModalRef.current?.present();
+        }, 50);
+      }
 
-  const handlePressMeetingCard = useCallback((meeting: Meeting) => {
-    if (!meeting) return;
-
-    setSelectedMeeting(meeting);
-    bottomSheetModalRef.current?.present();
-  }, []);
+      isNavigatingRef.current = false;
+    }, [selectedMeeting])
+  );
 
   const renderBackdrop = useCallback(
     (props: any) => (
@@ -65,6 +69,19 @@ export default function SearchMeetingsScreen() {
     ),
     []
   );
+
+  const handleParticipantPress = () => {
+    isNavigatingRef.current = true;
+    bottomSheetModalRef.current?.dismiss();
+    router.push("/(misc)/participant-profile");
+  };
+
+  const handlePressMeetingCard = useCallback((meeting: Meeting) => {
+    if (!meeting) return;
+
+    setSelectedMeeting(meeting);
+    bottomSheetModalRef.current?.present();
+  }, []);
 
   const [meetingData, setMeetingData] = useState<Meeting[]>(meetingTestData);
   // Test data
@@ -100,6 +117,7 @@ export default function SearchMeetingsScreen() {
             />
             <TouchableOpacity
               style={styles.newMeetingButton}
+              onPress={() => router.push("/(misc)/create-meeting")}
               activeOpacity={0.5}
             >
               <PlusIcon width={18} height={18} />
@@ -120,10 +138,13 @@ export default function SearchMeetingsScreen() {
 
         <BottomSheetModal
           ref={bottomSheetModalRef}
-          index={1}
-          snapPoints={snapPoints}
+          index={0}
           backdropComponent={renderBackdrop}
-          onDismiss={() => setSelectedMeeting(null)}
+          onDismiss={() => {
+            if (!isNavigatingRef.current) {
+              setSelectedMeeting(null);
+            }
+          }}
           animationConfigs={animationConfigs}
           backgroundStyle={{
             borderRadius: 32,
@@ -132,12 +153,11 @@ export default function SearchMeetingsScreen() {
         >
           <BottomSheetView style={styles.contentContainer}>
             {selectedMeeting ? (
-              <MeetingInfoModal meeting={selectedMeeting} />
-            ) : (
-              <Text style={styles.errorMessage}>
-                문제가 발생했습니다. 다시 시도해주세요.
-              </Text>
-            )}
+              <MeetingInfoModal
+                meeting={selectedMeeting}
+                onParticipantPress={handleParticipantPress}
+              />
+            ) : null}
           </BottomSheetView>
         </BottomSheetModal>
       </View>
