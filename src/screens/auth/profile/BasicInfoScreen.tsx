@@ -5,7 +5,7 @@ import RedButton from "@/src/components/common/RedButton";
 import DebugButton from "@/src/components/DebugButton";
 import colors from "@/src/constants/colors";
 import { useAuthStore } from "@/src/stores/authStore";
-import { Gender } from "@/src/types/auth";
+import { Gender } from "@/src/types/authType";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {

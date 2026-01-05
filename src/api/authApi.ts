@@ -1,11 +1,11 @@
-// src/api/auth.ts
+// src/api/authApi.ts
 
 import {
   LoginRequest,
   LoginResponse,
   RegisterRequest,
   SetProfileRequest,
-} from "../types/auth";
+} from "../types/authType";
 import client from "./client";
 
 export const authApi = {

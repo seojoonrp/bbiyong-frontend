@@ -1,13 +1,13 @@
 // src/services/authService.ts
 
-import { authApi } from "../api/auth";
+import { authApi } from "../api/authApi";
 import { useAuthStore } from "../stores/authStore";
 import {
   LoginRequest,
   Provider,
   RegisterRequest,
   SetProfileRequest,
-} from "../types/auth";
+} from "../types/authType";
 
 export const authService = {
   checkUsername: async (username: string) => {

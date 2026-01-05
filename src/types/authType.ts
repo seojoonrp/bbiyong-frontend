@@ -1,4 +1,6 @@
-// src/types/auth.ts
+// src/types/authType.ts
+
+import { Location } from "./commonType";
 
 export enum Gender {
   Male = "MALE",
@@ -11,11 +13,6 @@ export enum Provider {
   Google = "GOOGLE",
   Kakao = "KAKAO",
   Apple = "APPLE",
-}
-
-export interface Location {
-  type: "Point";
-  coordinates: [number, number]; // [longitude, latitude]
 }
 
 export interface User {

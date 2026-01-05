@@ -10,7 +10,7 @@ import RedButton from "@/src/components/common/RedButton";
 import DebugButton from "@/src/components/DebugButton";
 import colors from "@/src/constants/colors";
 import { authService } from "@/src/services/authService";
-import { Provider } from "@/src/types/auth";
+import { Provider } from "@/src/types/authType";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { login as kakaoLogin } from "@react-native-seoul/kakao-login";
 import * as AppleAuthentication from "expo-apple-authentication";

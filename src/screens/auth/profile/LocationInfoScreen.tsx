@@ -5,7 +5,7 @@ import { KakaoMapView } from "@/src/components/location/KakaoMapView";
 import colors from "@/src/constants/colors";
 import { useLocationSetup } from "@/src/hooks/useLocationSetup";
 import { useAuthStore } from "@/src/stores/authStore";
-import { Location } from "@/src/types/auth";
+import { Location } from "@/src/types/commonType";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";

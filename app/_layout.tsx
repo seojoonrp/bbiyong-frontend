@@ -17,6 +17,7 @@ export default function RootLayout() {
     "Pretendard-Regular": require("../assets/fonts/Pretendard-Regular.ttf"),
     "Pretendard-Light": require("../assets/fonts/Pretendard-Light.ttf"),
     "PartialSansKR-Regular": require("../assets/fonts/PartialSansKR-Regular.ttf"),
+    GumiRomance: require("../assets/fonts/GumiRomance.ttf"),
   });
 
   // TODO : Check login session

@@ -4,7 +4,7 @@ import RedButton from "@/src/components/common/RedButton";
 import colors from "@/src/constants/colors";
 import { authService } from "@/src/services/authService";
 import { useAuthStore } from "@/src/stores/authStore";
-import { SetProfileRequest } from "@/src/types/auth";
+import { SetProfileRequest } from "@/src/types/authType";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
